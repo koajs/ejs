@@ -7,6 +7,8 @@ Koa ejs view render middleware. suport all feature of [ejs](https://github.com/v
 
 ## Usage
 
+### Example
+
 ```js
 var koa = require('koa');
 var render = require('koa-ejs');
@@ -31,8 +33,70 @@ app.listen(7001);
 
 Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/master/example).
 
-## Options
+### settings
 
+* root: view root directory.
+* layout: global layout file, default is `layout.html`, set `false` to disable layout.
+* viewExt: default view extname.
+* cache: cache compiled function flag.
+* debug: debug flag.
+* locals: global locals, can be function type, `this` in the function is koa's ctx.
+* filters: ejs custom filters.
+* open: open flog.
+* close: close floag.
+
+### Layouts
+
+`koa-ejs` support layout. default layout file is `layout.html`, if you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `yield this.render`.
+Also you can set `layout = false;` to close layout.
+
+```
+<html>
+  <head>
+    <title>koa ejs</title>
+  </head>
+  <h3>koa ejs</h3>
+  <body>
+    <%- body %>
+  </body>
+</html>
+```
+
+### Inlcude
+
+support ejs default include.
+
+```
+<div>
+  <% include user.html %>
+</div>
+```
+
+### Filters
+
+support ejs filters.
+
+```
+<p><%=: users | map : 'name' | join %></p>
+```
+
+you can custom filters pass by `settings.filters'
+
+### Locals
+
+pass gobal locals by `settings.locals`, locals can be functions to get dynamic values.
+
+```
+var locals = {
+  version: '0.0.1',
+  now: function () {
+    return new Date();
+  },
+  ip: function () {
+    return this.ip; // use this like in koa middleware
+  }
+};
+```
 
 ## Licences
 (The MIT License)
