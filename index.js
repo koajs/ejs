@@ -18,7 +18,7 @@ var fs = require('co-fs');
  * default render options
  * @type {Object}
  */
-var settings = {
+var _settings = {
   cache: true,
   layout: 'layout.html',
   viewExt: '',
@@ -66,47 +66,6 @@ function response(ctx, html) {
 }
 
 /**
- * generate html with ejs function and options
- * @param {Function} fn ejs compiled function
- * @param {Object} options
- * @return {String}
- */
-function renderTpl(fn, options) {
-  return options.scope
-  ? fn.call(options.scope, options)
-  : fn(options);
-}
-
-/**
- * generate html with view name and options
- * @param {String} view
- * @param {Object} options
- * @return {String} html
- */
-function *render(view, options) {
-  view += settings.viewExt;
-  var viewPath = path.join(settings.root, view);
-
-  // get from cache
-  if (settings.cache && cache[viewPath]) {
-    var fn = cache[viewPath];
-    return renderTpl(fn, options);
-  }
-
-  var tpl = yield fs.readFile(viewPath, 'utf8');
-  var fn = ejs.compile(tpl, {
-    filename: viewPath,
-    _with: settings._with,
-    compileDebug: settings.debug
-  });
-  if (settings.cache) {
-    cache[viewPath] = fn;
-  }
-
-  return _renderTpl(fn, options);
-}
-
-/**
  * set app.context.render
  *
  * usage:
@@ -114,30 +73,76 @@ function *render(view, options) {
  * yield this.render('user', {name: 'dead_horse'});
  * ```
  * @param {Application} app koa application instance
- * @param {Object} options user settings
+ * @param {Object} settings user settings
  */
-exports = module.exports = function (app, options) {
-  if (!options || !options.root) {
-    throw new Error('options.root required');
+exports = module.exports = function (app, settings) {
+  if (app.context.render) {
+    return;
   }
-  for (var prop in options) {
-    settings[prop] = options[prop];
+
+  if (!settings || !settings.root) {
+    throw new Error('settings.root required');
   }
+
+  merge(settings, _settings);
 
   settings.viewExt = settings.viewExt
   ? '.' + settings.viewExt.replace(/^\./, '')
   : '';
 
   // ejs global options
-  ejs.open = settings.open;
-  ejs.close = settings.close;
+  // if use koa-ejs in multi server, filters will regist in one ejs instance
   for (var name in settings.filters) {
     ejs.filters[name] = settings.filters[name];
   }
 
+  /**
+   * generate html with ejs function and options
+   * @param {Function} fn ejs compiled function
+   * @param {Object} options
+   * @return {String}
+   */
+  function renderTpl(fn, options) {
+    return options.scope
+    ? fn.call(options.scope, options)
+    : fn(options);
+  }
+
+  /**
+   * generate html with view name and options
+   * @param {String} view
+   * @param {Object} options
+   * @return {String} html
+   */
+  function *render(view, options) {
+    view += settings.viewExt;
+    var viewPath = path.join(settings.root, view);
+
+    // get from cache
+    if (settings.cache && cache[viewPath]) {
+      return renderTpl(cache[viewPath], options);
+    }
+
+    var tpl = yield fs.readFile(viewPath, 'utf8');
+    var fn = ejs.compile(tpl, {
+      filename: viewPath,
+      _with: settings._with,
+      compileDebug: settings.debug
+    });
+    if (settings.cache) {
+      cache[viewPath] = fn;
+    }
+
+    return renderTpl(fn, options);
+  }
+
+
   app.context.render = function *(view, options) {
     // merge global locals to options
     merge(options, settings.locals, this);
+    options.open = options.open || settings.open;
+    options.close = options.close || settings.close;
+
     var html = yield render(view, options);
 
     var layout = options.layout || settings.layout;
@@ -151,4 +156,3 @@ exports = module.exports = function (app, options) {
 };
 
 exports.ejs = ejs;
-exports.settings = settings;
