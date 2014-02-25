@@ -1,0 +1,6 @@
+<div>
+  <p>server time is: <%=: now | format %></p>
+  <p>request ip is: <%= ip %></p>
+  <p><%=: users | map : 'name' | join %></p>
+  <% include user.html %>
+</div>
