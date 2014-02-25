@@ -1,7 +1,7 @@
 koa-ejs [![Build Status](https://secure.travis-ci.org/dead-horse/koa-ejs.png)](http://travis-ci.org/dead-horse/koa-ejs)
 =========
 
-Koa ejs view render middleware. suport all feature of [ejs](https://github.com/visionmedia/ejs).
+Koa ejs view render middleware. support all feature of [ejs](https://github.com/visionmedia/ejs).
 
 [![NPM](https://nodei.co/npm/koa-ejs.png?downloads=true)](https://nodei.co/npm/koa-ejs/)
 
