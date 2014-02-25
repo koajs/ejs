@@ -1,5 +1,5 @@
 {
-  "name": "koa-view",
+  "name": "koa-ejs",
   "version": "0.0.0",
   "description": "ejs render middleware for koa",
   "main": "index.js",

@@ -1,5 +1,5 @@
 /*!
- * koa-render - example/app.js
+ * koa-ejs - example/app.js
  * Copyright(c) 2014 dead_horse <dead_horse@qq.com>
  * MIT Licensed
  */
@@ -49,4 +49,8 @@ app.use(function *() {
   });
 });
 
-app.listen(7001);
+if (process.env.NODE_ENV === 'test') {
+  module.exports = app.callback();
+} else {
+  app.listen(7001);
+}

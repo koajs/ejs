@@ -1,5 +1,5 @@
 /*!
- * koa-render - index.js
+ * koa-ejs - index.js
  * Copyright(c) 2014 dead_horse <dead_horse@qq.com>
  * MIT Licensed
  */
@@ -116,7 +116,7 @@ function *render(view, options) {
  * @param {Application} app koa application instance
  * @param {Object} options user settings
  */
-module.exports = function (app, options) {
+exports = module.exports = function (app, options) {
   if (!options || !options.root) {
     throw new Error('options.root required');
   }
@@ -149,3 +149,6 @@ module.exports = function (app, options) {
     response(this, html);
   };
 };
+
+exports.ejs = ejs;
+exports.settings = settings;
