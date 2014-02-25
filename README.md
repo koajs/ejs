@@ -1,15 +1,15 @@
-koa-render [![Build Status](https://secure.travis-ci.org/dead-horse/koa-render.png)](http://travis-ci.org/dead-horse/koa-render)
+koa-view [![Build Status](https://secure.travis-ci.org/dead-horse/koa-view.png)](http://travis-ci.org/dead-horse/koa-view)
 =========
 
-koa view render middleware.
+Koa view render middleware. suport all feature of [ejs](https://github.com/visionmedia/ejs).
 
-[![NPM](https://nodei.co/npm/koa-render.png?downloads=true)](https://nodei.co/npm/koa-render/)
+[![NPM](https://nodei.co/npm/koa-view.png?downloads=true)](https://nodei.co/npm/koa-view/)
 
 ## Usage
 
 ```js
 var koa = require('koa');
-var render = require('koa-render');
+var render = require('koa-view');
 
 var app = koa();
 render(app, {
@@ -29,7 +29,7 @@ app.use(function *() {
 app.listen(7001);
 ```
 
-Or you can checkout the [example](https://github.com/dead-horse/koa-render/tree/master/example).
+Or you can checkout the [example](https://github.com/dead-horse/koa-view/tree/master/example).
 
 ## Options
 
