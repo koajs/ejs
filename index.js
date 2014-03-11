@@ -59,8 +59,7 @@ var cache = {};
  * @param {String} html
  */
 function response(ctx, html) {
-  ctx.type = 'text/html';
-  ctx.charset = 'utf-8';
+  ctx.type = 'html';
   ctx.length = html.length;
   ctx.body = html;
 }
