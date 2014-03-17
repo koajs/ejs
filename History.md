@@ -1,5 +1,13 @@
 
-0.0.2 / 2014-03-11 
+n.n.n / 2014-03-17
+==================
+
+  * update readme
+  * support locals as generator
+  * Merge pull request #1 from Pana/master
+  * small edit
+
+0.0.2 / 2014-03-11
 ==================
 
   * fix charset
