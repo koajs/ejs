@@ -138,6 +138,7 @@ exports = module.exports = function (app, settings) {
 
   app.context.render = function *(view, options) {
     // merge global locals to options
+    options = options || {};
     merge(options, settings.locals, this);
     options.open = options.open || settings.open;
     options.close = options.close || settings.close;
