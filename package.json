@@ -24,15 +24,17 @@
   "homepage": "https://github.com/dead-horse/koa-render",
   "devDependencies": {
     "autod": "~0.1.0",
+    "co-wait": "0.0.0",
     "contributors": "~0.2.3",
-    "koa": "~0.5.1",
+    "koa": "0.5.1",
     "mocha": "~1.17.1",
     "should": "3.1.2",
     "supertest": "0.9.0"
   },
   "dependencies": {
     "co-fs": "1.1.1",
-    "ejs": "0.8.5"
+    "ejs": "0.8.5",
+    "is-type-of": "0.0.1"
   },
   "engine": {
     "node": ">0.11"

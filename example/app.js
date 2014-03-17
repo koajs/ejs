@@ -13,6 +13,7 @@
 var koa = require('koa');
 var render = require('..');
 var path = require('path');
+var wait = require('co-wait');
 
 var app = koa();
 
@@ -21,9 +22,10 @@ var locals = {
   now: function () {
     return new Date();
   },
-  ip: function () {
+  ip: function *() {
+    yield wait(100);
     return this.ip;
-  }
+  },
 };
 
 var filters = {

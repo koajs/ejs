@@ -13,6 +13,7 @@
 var path = require('path');
 var ejs = require('ejs');
 var fs = require('co-fs');
+var is = require('is-type-of');
 
 /**
  * default render options
@@ -36,14 +37,21 @@ var _settings = {
  * @param {Object} source
  * @param {Object} ctx
  */
-function merge(target, source, ctx) {
+function *merge(target, source, ctx) {
   for (var prop in source) {
     if (prop in target) {
       continue;
     }
-    target[prop] = typeof source[prop] === 'function'
-    ? source[prop].call(ctx)
-    : source[prop];
+    var val = source[prop];
+    if (is.generator(val) || is.generatorFunction(val)) {
+      target[prop] = yield *val.call(ctx);
+      continue;
+    }
+    if (is.function (val)) {
+      target[prop] = val.call(ctx);
+      continue;
+    }
+    target[prop] = val;
   }
 }
 
@@ -116,7 +124,6 @@ exports = module.exports = function (app, settings) {
   function *render(view, options) {
     view += settings.viewExt;
     var viewPath = path.join(settings.root, view);
-
     // get from cache
     if (settings.cache && cache[viewPath]) {
       return renderTpl(cache[viewPath], options);
@@ -139,7 +146,7 @@ exports = module.exports = function (app, settings) {
   app.context.render = function *(view, options) {
     // merge global locals to options
     options = options || {};
-    merge(options, settings.locals, this);
+    yield *merge(options, settings.locals, this);
     options.open = options.open || settings.open;
     options.close = options.close || settings.close;
 
