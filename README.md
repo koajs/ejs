@@ -85,6 +85,7 @@ you can custom filters pass by `settings.filters'
 ### Locals
 
 pass gobal locals by `settings.locals`, locals can be functions to get dynamic values.
+locals also can be `generatorFunction` or `generator`, so you can do some async invoke in locals.
 
 ```
 var locals = {
@@ -92,7 +93,8 @@ var locals = {
   now: function () {
     return new Date();
   },
-  ip: function () {
+  ip: function *() {  // generatorFunction
+    yield wait(10);
     return this.ip; // use this like in koa middleware
   }
 };
