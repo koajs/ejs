@@ -19,7 +19,7 @@ contributors: install
 	@./node_modules/contributors/bin/contributors -f plain -o AUTHORS
 
 autod: install
-	@./node_modules/.bin/autod -w -e example
+	@./node_modules/.bin/autod -w -e example -f
 	@$(MAKE) install
 
 .PHONY: test

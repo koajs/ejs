@@ -14,12 +14,13 @@ var path = require('path');
 var ejs = require('ejs');
 var fs = require('co-fs');
 var is = require('is-type-of');
+var copy = require('copy-to');
 
 /**
  * default render options
  * @type {Object}
  */
-var _settings = {
+var defaultSettings = {
   cache: true,
   layout: 'layout.html',
   viewExt: '',
@@ -62,22 +63,11 @@ function *merge(target, source, ctx) {
 var cache = {};
 
 /**
- * response the html to browser
- * @param {Object} ctx
- * @param {String} html
- */
-function response(ctx, html) {
-  ctx.type = 'html';
-  ctx.length = html.length;
-  ctx.body = html;
-}
-
-/**
  * set app.context.render
  *
  * usage:
  * ```
- * yield this.render('user', {name: 'dead_horse'});
+ * yield *this.render('user', {name: 'dead_horse'});
  * ```
  * @param {Application} app koa application instance
  * @param {Object} settings user settings
@@ -91,14 +81,15 @@ exports = module.exports = function (app, settings) {
     throw new Error('settings.root required');
   }
 
-  merge(settings, _settings);
+  copy(defaultSettings).to(settings);
 
   settings.viewExt = settings.viewExt
-  ? '.' + settings.viewExt.replace(/^\./, '')
-  : '';
+    ? '.' + settings.viewExt.replace(/^\./, '')
+    : '';
 
   // ejs global options
-  // if use koa-ejs in multi server, filters will regist in one ejs instance
+  // WARNING: if use koa-ejs in multi server
+  // filters will regist in one ejs instance
   for (var name in settings.filters) {
     ejs.filters[name] = settings.filters[name];
   }
@@ -111,8 +102,8 @@ exports = module.exports = function (app, settings) {
    */
   function renderTpl(fn, options) {
     return options.scope
-    ? fn.call(options.scope, options)
-    : fn(options);
+      ? fn.call(options.scope, options)
+      : fn(options);
   }
 
   /**
@@ -146,20 +137,27 @@ exports = module.exports = function (app, settings) {
   app.context.render = function *(view, options) {
     // merge global locals to options
     options = options || {};
+
+    // support generator locals
     yield *merge(options, settings.locals, this);
     options.open = options.open || settings.open;
     options.close = options.close || settings.close;
 
-    var html = yield render(view, options);
+    var html = yield *render(view, options);
 
     var layout = options.layout || settings.layout;
     if (layout) {
       // if using layout
       options.body = html;
-      html = yield render(layout, options);
+      html = yield *render(layout, options);
     }
-    response(this, html);
+    this.type = 'html';
+    this.body = html;
   };
 };
+
+/**
+ * Expose ejs
+ */
 
 exports.ejs = ejs;

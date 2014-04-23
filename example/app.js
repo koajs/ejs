@@ -55,4 +55,5 @@ if (process.env.NODE_ENV === 'test') {
   module.exports = app.callback();
 } else {
   app.listen(7001);
+  console.log('open http://localhost:7001')
 }
