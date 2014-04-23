@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/dead-horse/koa-render.git"
+    "url": "git://github.com/koajs/ejs.git"
   },
   "keywords": [
     "koa",
@@ -19,9 +19,9 @@
   "author": "dead_horse <dead_horse@qq.com> (http://deadhorse.me)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dead-horse/koa-render/issues"
+    "url": "https://github.com/koajs/ejs/issues"
   },
-  "homepage": "https://github.com/dead-horse/koa-render",
+  "homepage": "https://github.com/koajs/ejs",
   "devDependencies": {
     "autod": "~0.1.0",
     "co-wait": "0.0.0",
