@@ -38,8 +38,8 @@ Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/mas
 ### settings
 
 * root: view root directory.
-* layout: global layout file, default is `layout.html`, set `false` to disable layout.
-* viewExt: default view extname.
+* layout: global layout file, default is `layout`, set `false` to disable layout.
+* viewExt: view file extension, default is `html`.
 * cache: cache compiled function flag.
 * debug: debug flag.
 * locals: global locals, can be function type, `this` in the function is koa's ctx.
@@ -49,7 +49,7 @@ Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/mas
 
 ### Layouts
 
-`koa-ejs` support layout. default layout file is `layout.html`, if you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `yield this.render`.
+`koa-ejs` support layout. default layout file is `layout`, if you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `yield this.render`.
 Also you can set `layout = false;` to close layout.
 
 ```
