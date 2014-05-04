@@ -22,8 +22,8 @@ var copy = require('copy-to');
  */
 var defaultSettings = {
   cache: true,
-  layout: 'layout.html',
-  viewExt: '',
+  layout: 'layout',
+  viewExt: 'html',
   open: '<%',
   close: '%>',
   filters: {},
