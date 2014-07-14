@@ -145,7 +145,7 @@ exports = module.exports = function (app, settings) {
 
     var html = yield *render(view, options);
 
-    var layout = options.layout || settings.layout;
+    var layout = ("layout" in options && options.layout === false) ? false : (options.layout || settings.layout);
     if (layout) {
       // if using layout
       options.body = html;
