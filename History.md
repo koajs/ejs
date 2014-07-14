@@ -1,5 +1,11 @@
 
-n.n.n / 2014-05-04 
+1.0.2 / 2014-07-14 
+==================
+
+  * Merge pull request #5 from its-florida/master
+  * Honor layout overrides in options.
+
+1.0.1 / 2014-05-04 
 ==================
 
   * updated default settings, fixes #3
