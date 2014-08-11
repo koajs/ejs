@@ -41,8 +41,8 @@ describe('test/koa-ejs.test.js', function () {
   });
 
   describe('server', function () {
-    var app = require('../example/app');
     it('should render page ok', function (done) {
+      var app = require('../example/app');
       request(app)
       .get('/')
       .expect('content-type', 'text/html; charset=utf-8')
@@ -51,6 +51,27 @@ describe('test/koa-ejs.test.js', function () {
       .expect(/Dead Horse, Jack, Tom/)
       .expect(/dead horse/)
       .expect(200, done);
+    });
+    it('should render page ok with custom open/close', function(done) {
+      var app = koa();
+      render(app, {
+        root: 'example/view',
+        layout: 'template.oc',
+        viewExt: 'html',
+        open: '{{',
+        close: '}}'
+      });
+
+      app.use(function *(next) {
+        yield this.render('user.oc', {
+          user: {name: 'Zed Gu'}
+        });
+      });
+      request(app.callback())
+      .get('/')
+      .expect('content-type', 'text/html; charset=utf-8')
+      .expect(/Zed Gu/)
+      .expect(200, done)
     });
   });
 });

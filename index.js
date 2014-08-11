@@ -124,7 +124,9 @@ exports = module.exports = function (app, settings) {
     var fn = ejs.compile(tpl, {
       filename: viewPath,
       _with: settings._with,
-      compileDebug: settings.debug
+      compileDebug: settings.debug,
+      open: settings.open,
+      close: settings.close
     });
     if (settings.cache) {
       cache[viewPath] = fn;
@@ -140,8 +142,6 @@ exports = module.exports = function (app, settings) {
 
     // support generator locals
     yield *merge(options, settings.locals, this);
-    options.open = options.open || settings.open;
-    options.close = options.close || settings.close;
 
     var html = yield *render(view, options);
 
