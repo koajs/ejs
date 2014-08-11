@@ -1,4 +1,10 @@
 
+1.1.0 / 2014-08-12
+==================
+
+  * Merge pull request #6 from zedgu/master
+  * [fix] open/close tag setting is not working
+
 1.0.2 / 2014-07-14 
 ==================
 
