@@ -28,7 +28,8 @@ var defaultSettings = {
   close: '%>',
   filters: {},
   locals: {},
-  debug: false
+  debug: false,
+  writeResp: true
 };
 
 /**
@@ -151,8 +152,16 @@ exports = module.exports = function (app, settings) {
       options.body = html;
       html = yield *render(layout, options);
     }
-    this.type = 'html';
-    this.body = html;
+
+    var writeResp = ('writeResp' in options && options.writeResp === false ) ? false : (options.writeResp || settings.writeResp);
+    if (writeResp) {
+      //normal operation
+      this.type = 'html';
+      this.body = html;
+    }else{
+      //only return the html
+      return html;
+    }
   };
 };
 
