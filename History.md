@@ -1,4 +1,11 @@
 
+1.1.1 / 2014-08-28
+==================
+
+  * Merge pull request #7 from lopezchr/clopez
+  * adding write-response test suit
+  * Addign no auto write body option
+
 1.1.0 / 2014-08-12
 ==================
 
