@@ -1,4 +1,10 @@
 
+1.1.2 / 2014-08-30 
+==================
+
+  * Merge pull request #8 from zedgu/master
+  * for resolve to absolute path
+
 1.1.1 / 2014-08-28
 ==================
 
