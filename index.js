@@ -115,7 +115,7 @@ exports = module.exports = function (app, settings) {
    */
   function *render(view, options) {
     view += settings.viewExt;
-    var viewPath = path.join(settings.root, view);
+    var viewPath = path.resolve(settings.root, view);
     // get from cache
     if (settings.cache && cache[viewPath]) {
       return renderTpl(cache[viewPath], options);
