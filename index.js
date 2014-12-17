@@ -58,12 +58,6 @@ function *merge(target, source, ctx) {
 }
 
 /**
- * cache the generate package
- * @type {Object}
- */
-var cache = {};
-
-/**
  * set app.context.render
  *
  * usage:
@@ -82,6 +76,14 @@ exports = module.exports = function (app, settings) {
     throw new Error('settings.root required');
   }
 
+  settings.root = path.resolve(process.cwd(), settings.root);
+
+  /**
+  * cache the generate package
+  * @type {Object}
+  */
+  var cache = Object.create(null);
+
   copy(defaultSettings).to(settings);
 
   settings.viewExt = settings.viewExt
@@ -96,18 +98,6 @@ exports = module.exports = function (app, settings) {
   }
 
   /**
-   * generate html with ejs function and options
-   * @param {Function} fn ejs compiled function
-   * @param {Object} options
-   * @return {String}
-   */
-  function renderTpl(fn, options) {
-    return options.scope
-      ? fn.call(options.scope, options)
-      : fn(options);
-  }
-
-  /**
    * generate html with view name and options
    * @param {String} view
    * @param {Object} options
@@ -115,10 +105,10 @@ exports = module.exports = function (app, settings) {
    */
   function *render(view, options) {
     view += settings.viewExt;
-    var viewPath = path.resolve(settings.root, view);
+    var viewPath = path.join(settings.root, view);
     // get from cache
     if (settings.cache && cache[viewPath]) {
-      return renderTpl(cache[viewPath], options);
+      return cache[viewPath].call(options.scope, options);
     }
 
     var tpl = yield fs.readFile(viewPath, 'utf8');
@@ -133,7 +123,7 @@ exports = module.exports = function (app, settings) {
       cache[viewPath] = fn;
     }
 
-    return renderTpl(fn, options);
+    return fn.call(options.scope, options);
   }
 
 
@@ -146,14 +136,14 @@ exports = module.exports = function (app, settings) {
 
     var html = yield *render(view, options);
 
-    var layout = ("layout" in options && options.layout === false) ? false : (options.layout || settings.layout);
+    var layout = options.layout === false ? false : (options.layout || settings.layout);
     if (layout) {
       // if using layout
       options.body = html;
       html = yield *render(layout, options);
     }
 
-    var writeResp = ('writeResp' in options && options.writeResp === false ) ? false : (options.writeResp || settings.writeResp);
+    var writeResp = options.writeResp === false ? false : (options.writeResp || settings.writeResp);
     if (writeResp) {
       //normal operation
       this.type = 'html';
