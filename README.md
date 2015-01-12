@@ -39,18 +39,18 @@ Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/mas
 
 * root: view root directory.
 * layout: global layout file, default is `layout`, set `false` to disable layout.
-* viewExt: view file extension, default is `html`.
-* cache: cache compiled function flag.
-* debug: debug flag.
+* viewExt: view file extension (default `html`).
+* cache: cache compiled templates (default `true`).
+* debug: debug flag (default `false`).
 * locals: global locals, can be function type, `this` in the function is koa's ctx.
 * filters: ejs custom filters.
-* open: open flog.
-* close: close floag.
+* open: open sequence (default `<%`).
+* close: close sequence (default `%>`).
 
 ### Layouts
 
-`koa-ejs` support layout. default layout file is `layout`, if you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `yield this.render`.
-Also you can set `layout = false;` to close layout.
+`koa-ejs` supports layouts. The default layout file is `layout`. If you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `yield this.render`.
+Also you can set `layout = false` to disable the layout.
 
 ```
 <html>
@@ -66,7 +66,7 @@ Also you can set `layout = false;` to close layout.
 
 ### Inlcude
 
-support ejs default include.
+Supports ejs includes.
 
 ```
 <div>
@@ -76,18 +76,18 @@ support ejs default include.
 
 ### Filters
 
-support ejs filters.
+Supports ejs filters.
 
 ```
 <p><%=: users | map : 'name' | join %></p>
 ```
 
-you can custom filters pass by `settings.filters'
+You can use custom filters using `settings.filters`
 
 ### Locals
 
-pass gobal locals by `settings.locals`, locals can be functions to get dynamic values.
-locals also can be `generatorFunction` or `generator`, so you can do some async invoke in locals.
+Pass gobal locals by `settings.locals`. Locals can be functions to get dynamic values.
+Locals also can be `generatorFunction` or `generator`, so you can do some async invocations in locals.
 
 ```
 var locals = {
