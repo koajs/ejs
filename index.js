@@ -11,9 +11,8 @@
  */
 
 var path = require('path');
-var ejs = require('ejs');
-var fs = require('co-fs');
-var is = require('is-type-of');
+var fs = require('fs');
+var ejs = require('co-ejs');
 var copy = require('copy-to');
 
 /**
@@ -31,31 +30,6 @@ var defaultSettings = {
   debug: false,
   writeResp: true
 };
-
-/**
- * merge object source into object target
- * only if target[prop] not exist
- * @param {Object} target
- * @param {Object} source
- * @param {Object} ctx
- */
-function *merge(target, source, ctx) {
-  for (var prop in source) {
-    if (prop in target) {
-      continue;
-    }
-    var val = source[prop];
-    if (is.generator(val) || is.generatorFunction(val)) {
-      target[prop] = yield *val.call(ctx);
-      continue;
-    }
-    if (is.function (val)) {
-      target[prop] = val.call(ctx);
-      continue;
-    }
-    target[prop] = val;
-  }
-}
 
 /**
  * set app.context.render
@@ -111,11 +85,11 @@ exports = module.exports = function (app, settings) {
       return cache[viewPath].call(options.scope, options);
     }
 
-    var tpl = yield fs.readFile(viewPath, 'utf8');
+    var tpl = fs.readFileSync(viewPath, 'utf8');
     var fn = ejs.compile(tpl, {
       filename: viewPath,
       _with: settings._with,
-      compileDebug: settings.debug,
+      debug: settings.debug,
       open: settings.open,
       close: settings.close
     });
@@ -123,16 +97,13 @@ exports = module.exports = function (app, settings) {
       cache[viewPath] = fn;
     }
 
-    return fn.call(options.scope, options);
+    return yield fn.call(options.scope, options);
   }
 
 
   app.context.render = function *(view, options) {
-    // merge global locals to options
     options = options || {};
-
-    // support generator locals
-    yield *merge(options, settings.locals, this);
+    copy(settings.locals).to(options);
 
     var html = yield *render(view, options);
 
