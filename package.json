@@ -32,8 +32,10 @@
     "supertest": "^0.11.0"
   },
   "dependencies": {
+    "co-fs": "^1.2.0",
     "copy-to": ">=0.0.3",
-    "co-ejs": "^1.2.0"
+    "co-ejs": "^1.2.0",
+    "is-type-of": "^0.2.1"
   },
   "engine": {
     "node": ">0.11"
