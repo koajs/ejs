@@ -34,7 +34,7 @@
   "dependencies": {
     "co-fs": "^1.2.0",
     "copy-to": ">=0.0.3",
-    "ejs": "^1.0.0",
+    "co-ejs": "^1.2.0",
     "is-type-of": "^0.2.1"
   },
   "engine": {

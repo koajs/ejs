@@ -11,7 +11,7 @@
  */
 
 var path = require('path');
-var ejs = require('ejs');
+var ejs = require('co-ejs');
 var fs = require('co-fs');
 var is = require('is-type-of');
 var copy = require('copy-to');
@@ -39,17 +39,13 @@ var defaultSettings = {
  * @param {Object} source
  * @param {Object} ctx
  */
-function *merge(target, source, ctx) {
+function merge(target, source, ctx) {
   for (var prop in source) {
     if (prop in target) {
       continue;
     }
     var val = source[prop];
-    if (is.generator(val) || is.generatorFunction(val)) {
-      target[prop] = yield *val.call(ctx);
-      continue;
-    }
-    if (is.function (val)) {
+    if (is.generator(val) || is.generatorFunction(val) || is.function(val)) {
       target[prop] = val.call(ctx);
       continue;
     }
@@ -115,7 +111,7 @@ exports = module.exports = function (app, settings) {
     var fn = ejs.compile(tpl, {
       filename: viewPath,
       _with: settings._with,
-      compileDebug: settings.debug,
+      debug: settings.debug,
       open: settings.open,
       close: settings.close
     });
@@ -123,7 +119,7 @@ exports = module.exports = function (app, settings) {
       cache[viewPath] = fn;
     }
 
-    return fn.call(options.scope, options);
+    return yield fn.call(options.scope, options);
   }
 
 
@@ -132,7 +128,7 @@ exports = module.exports = function (app, settings) {
     options = options || {};
 
     // support generator locals
-    yield *merge(options, settings.locals, this);
+    merge(options, settings.locals, this);
 
     var html = yield *render(view, options);
 
