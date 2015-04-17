@@ -133,6 +133,9 @@ exports = module.exports = function (app, settings) {
 
     // support generator locals
     yield *merge(options, settings.locals, this);
+    
+    // support koa state
+    yield *merge(options, this.state, this);
 
     var html = yield *render(view, options);
 
