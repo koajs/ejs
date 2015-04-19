@@ -22,7 +22,6 @@ render(app, {
   viewExt: 'html',
   cache: false,
   debug: true,
-  locals: locals,
   filters: filters
 });
 
@@ -42,7 +41,6 @@ Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/mas
 * viewExt: view file extension, default is `html`.
 * cache: cache compiled function flag.
 * debug: debug flag.
-* locals: global locals, can be function type, `this` in the function is koa's ctx.
 * filters: ejs custom filters.
 * open: open flog.
 * close: close floag.
@@ -84,23 +82,9 @@ support ejs filters.
 
 you can custom filters pass by `settings.filters'
 
-### Locals
+### State
 
-pass gobal locals by `settings.locals`, locals can be functions to get dynamic values.
-locals also can be `generatorFunction` or `generator`, so you can do some async invoke in locals.
-
-```
-var locals = {
-  version: '0.0.1',
-  now: function () {
-    return new Date();
-  },
-  ip: function *() {  // generatorFunction
-    yield wait(10);
-    return this.ip; // use this like in koa middleware
-  }
-};
-```
+Support [`ctx.state` in koa](https://github.com/koajs/koa/blob/master/docs/api/context.md#ctxstate).
 
 ## Licences
 (The MIT License)

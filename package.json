@@ -6,6 +6,9 @@
   "scripts": {
     "test": "make test"
   },
+  "files": [
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/koajs/ejs.git"
