@@ -13,7 +13,6 @@
 var koa = require('koa');
 var render = require('..');
 var path = require('path');
-var wait = require('co-wait');
 
 var app = koa();
 

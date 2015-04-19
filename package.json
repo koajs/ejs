@@ -23,19 +23,17 @@
   },
   "homepage": "https://github.com/koajs/ejs",
   "devDependencies": {
-    "autod": "~0.1.0",
-    "co-wait": "0.0.0",
-    "contributors": "~0.2.3",
-    "koa": "^0.5.5",
-    "mocha": "~1.17.1",
-    "should": "3.1.2",
-    "supertest": "^0.11.0"
+    "autod": "2",
+    "co-wait": "~0.0.0",
+    "koa": "~0.19.1",
+    "mocha": "~2.2.4",
+    "should": "~6.0.1",
+    "supertest": "~0.15.0"
   },
   "dependencies": {
-    "co-fs": "^1.2.0",
-    "copy-to": ">=0.0.3",
-    "ejs": "^1.0.0",
-    "is-type-of": "^0.2.1"
+    "co-fs": "~1.2.0",
+    "copy-to": "~2.0.1",
+    "ejs": "~1.0.0"
   },
   "engine": {
     "node": ">0.11"

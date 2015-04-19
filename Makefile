@@ -15,11 +15,10 @@ test: install
 		$(MOCHA_OPTS) \
 		$(TESTS)
 
-contributors: install
-	@./node_modules/contributors/bin/contributors -f plain -o AUTHORS
-
 autod: install
-	@./node_modules/.bin/autod -w -e example -f
+	@./node_modules/.bin/autod -w -e example -f \
+	-D mocha,should \
+	-s ejs@1
 	@$(MAKE) install
 
 .PHONY: test
