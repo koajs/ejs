@@ -1,10 +1,17 @@
 
-1.1.3 / 2014-12-18 
+2.0.0 / 2015-04-19
+==================
+
+  * add test for 0.12 and iojs
+  * deps: ejs@1
+  * refactor: remove locals
+
+1.1.3 / 2014-12-18
 ==================
 
   * fix viewPath' bug, improve code
 
-1.1.2 / 2014-08-30 
+1.1.2 / 2014-08-30
 ==================
 
   * Merge pull request #8 from zedgu/master
@@ -23,13 +30,13 @@
   * Merge pull request #6 from zedgu/master
   * [fix] open/close tag setting is not working
 
-1.0.2 / 2014-07-14 
+1.0.2 / 2014-07-14
 ==================
 
   * Merge pull request #5 from its-florida/master
   * Honor layout overrides in options.
 
-1.0.1 / 2014-05-04 
+1.0.1 / 2014-05-04
 ==================
 
   * updated default settings, fixes #3
