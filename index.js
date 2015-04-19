@@ -10,11 +10,10 @@
  * Module dependencies.
  */
 
-var path = require('path');
-var ejs = require('ejs');
-var fs = require('co-fs');
-var is = require('is-type-of');
 var copy = require('copy-to');
+var path = require('path');
+var fs = require('co-fs');
+var ejs = require('ejs');
 
 /**
  * default render options
@@ -31,31 +30,6 @@ var defaultSettings = {
   debug: false,
   writeResp: true
 };
-
-/**
- * merge object source into object target
- * only if target[prop] not exist
- * @param {Object} target
- * @param {Object} source
- * @param {Object} ctx
- */
-function *merge(target, source, ctx) {
-  for (var prop in source) {
-    if (prop in target) {
-      continue;
-    }
-    var val = source[prop];
-    if (is.generator(val) || is.generatorFunction(val)) {
-      target[prop] = yield *val.call(ctx);
-      continue;
-    }
-    if (is.function (val)) {
-      target[prop] = val.call(ctx);
-      continue;
-    }
-    target[prop] = val;
-  }
-}
 
 /**
  * set app.context.render
@@ -127,23 +101,21 @@ exports = module.exports = function (app, settings) {
   }
 
 
-  app.context.render = function *(view, options) {
-    // merge global locals to options
-    options = options || {};
+  app.context.render = function *(view, _context) {
+    context = {};
+    merge(context, this.state);
+    merge(context, _context);
 
-    // support generator locals
-    yield *merge(options, settings.locals, this);
+    var html = yield *render(view, context);
 
-    var html = yield *render(view, options);
-
-    var layout = options.layout === false ? false : (options.layout || settings.layout);
+    var layout = context.layout === false ? false : (context.layout || settings.layout);
     if (layout) {
       // if using layout
-      options.body = html;
-      html = yield *render(layout, options);
+      context.body = html;
+      html = yield *render(layout, context);
     }
 
-    var writeResp = options.writeResp === false ? false : (options.writeResp || settings.writeResp);
+    var writeResp = context.writeResp === false ? false : (context.writeResp || settings.writeResp);
     if (writeResp) {
       //normal operation
       this.type = 'html';
@@ -160,3 +132,17 @@ exports = module.exports = function (app, settings) {
  */
 
 exports.ejs = ejs;
+
+/**
+ * merge source to target
+ *
+ * @param {Object} target
+ * @param {Object} source
+ * @return {Object}
+ * @api private
+ */
+function merge(target, source) {
+  for (var key in source) {
+    target[key] = source[key];
+  }
+}

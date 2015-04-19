@@ -17,17 +17,6 @@ var wait = require('co-wait');
 
 var app = koa();
 
-var locals = {
-  version: '0.0.1',
-  now: function () {
-    return new Date();
-  },
-  ip: function *() {
-    yield wait(100);
-    return this.ip;
-  },
-};
-
 var filters = {
   format: function (time) {
     return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
@@ -40,8 +29,15 @@ render(app, {
   viewExt: 'html',
   cache: false,
   debug: true,
-  locals: locals,
   filters: filters
+});
+
+app.use(function* (next) {
+  this.state = this.state || {};
+  this.state.now = new Date();
+  this.state.ip = this.ip;
+  this.state.version = '2.0.0';
+  yield next;
 });
 
 app.use(function *() {
@@ -57,3 +53,7 @@ if (process.env.NODE_ENV === 'test') {
   app.listen(7001);
   console.log('open http://localhost:7001')
 }
+
+app.on('error', function (err) {
+  console.log(err.stack)
+})
