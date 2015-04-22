@@ -102,7 +102,7 @@ exports = module.exports = function (app, settings) {
 
 
   app.context.render = function *(view, _context) {
-    context = {};
+    var context = {};
     merge(context, this.state);
     merge(context, _context);
 
