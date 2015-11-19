@@ -22,8 +22,7 @@ describe('test/write-response.test.js', function () {
         root: 'example/view',
         layout: 'template.oc',
         viewExt: 'html',
-        open: '{{',
-        close: '}}'
+        delimiter: '?'
       });
 
       app.use(function *(next) {
@@ -50,8 +49,7 @@ describe('test/write-response.test.js', function () {
         root: 'example/view',
         layout: 'template.oc',
         viewExt: 'html',
-        open: '{{',
-        close: '}}',
+        delimiter: '?',
         writeResp:false
       });
 

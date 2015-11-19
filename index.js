@@ -23,9 +23,6 @@ var defaultSettings = {
   cache: true,
   layout: 'layout',
   viewExt: 'html',
-  open: '<%',
-  close: '%>',
-  filters: {},
   locals: {},
   debug: false,
   writeResp: true
@@ -64,13 +61,6 @@ exports = module.exports = function (app, settings) {
     ? '.' + settings.viewExt.replace(/^\./, '')
     : '';
 
-  // ejs global options
-  // WARNING: if use koa-ejs in multi server
-  // filters will regist in one ejs instance
-  for (var name in settings.filters) {
-    ejs.filters[name] = settings.filters[name];
-  }
-
   /**
    * generate html with view name and options
    * @param {String} view
@@ -90,8 +80,7 @@ exports = module.exports = function (app, settings) {
       filename: viewPath,
       _with: settings._with,
       compileDebug: settings.debug,
-      open: settings.open,
-      close: settings.close
+      delimiter: settings.delimiter
     });
     if (settings.cache) {
       cache[viewPath] = fn;
