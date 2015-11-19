@@ -23,8 +23,6 @@ var defaultSettings = {
   cache: true,
   layout: 'layout',
   viewExt: 'html',
-  open: '<%',
-  close: '%>',
   locals: {},
   debug: false,
   writeResp: true
