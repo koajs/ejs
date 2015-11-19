@@ -1,6 +1,6 @@
 {
   "name": "koa-ejs",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "ejs render middleware for koa",
   "main": "index.js",
   "scripts": {
