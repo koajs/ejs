@@ -3,7 +3,7 @@ koa-ejs
 
 [![Build Status](https://secure.travis-ci.org/koajs/ejs.svg)](http://travis-ci.org/koajs/ejs)
 
-Koa ejs view render middleware. support all feature of [ejs](https://github.com/visionmedia/ejs).
+Koa ejs view render middleware. support all feature of [ejs](https://github.com/mde/ejs).
 
 [![NPM](https://nodei.co/npm/koa-ejs.png?downloads=true)](https://nodei.co/npm/koa-ejs/)
 
@@ -21,8 +21,7 @@ render(app, {
   layout: 'template',
   viewExt: 'html',
   cache: false,
-  debug: true,
-  filters: filters
+  debug: true
 });
 
 app.use(function *() {
@@ -41,9 +40,7 @@ Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/mas
 * viewExt: view file extension (default `html`).
 * cache: cache compiled templates (default `true`).
 * debug: debug flag (default `false`).
-* filters: ejs custom filters.
-* open: open sequence (default `<%`).
-* close: close sequence (default `%>`).
+* delimiter: character to use with angle brackets for open / close (default `%`).
 
 ### Layouts
 
@@ -71,16 +68,6 @@ Supports ejs includes.
   <% include user.html %>
 </div>
 ```
-
-### Filters
-
-Supports ejs filters.
-
-```
-<p><%=: users | map : 'name' | join %></p>
-```
-
-You can use custom filters using `settings.filters`
 
 ### State
 

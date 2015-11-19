@@ -16,19 +16,12 @@ var path = require('path');
 
 var app = koa();
 
-var filters = {
-  format: function (time) {
-    return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate();
-  }
-};
-
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',
   viewExt: 'html',
   cache: false,
-  debug: true,
-  filters: filters
+  debug: true
 });
 
 app.use(function* (next) {

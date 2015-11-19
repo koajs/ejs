@@ -29,13 +29,9 @@ describe('test/koa-ejs.test.js', function () {
     it('should init ok', function () {
       render(app, {
         root: __dirname,
-        filters: {
-          format: function () {}
-        },
         open: '{{',
         close: '}}'
       });
-      render.ejs.filters.should.have.property('format');
       app.context.render.should.be.Function;
     });
   });
@@ -47,9 +43,8 @@ describe('test/koa-ejs.test.js', function () {
       .get('/')
       .expect('content-type', 'text/html; charset=utf-8')
       .expect(/<title>koa ejs<\/title>/)
-      .expect(/server time is: /)
-      .expect(/Dead Horse, Jack, Tom/)
-      .expect(/dead horse/)
+      .expect(/Dead Horse/)
+      .expect(/Jack/)
       .expect(200, done);
     });
     it('should render page ok with custom open/close', function(done) {
@@ -58,8 +53,7 @@ describe('test/koa-ejs.test.js', function () {
         root: 'example/view',
         layout: 'template.oc',
         viewExt: 'html',
-        open: '{{',
-        close: '}}'
+        delimiter: '?'
       });
 
       app.use(function *(next) {

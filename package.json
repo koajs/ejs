@@ -36,7 +36,7 @@
   "dependencies": {
     "co-fs": "~1.2.0",
     "copy-to": "~2.0.1",
-    "ejs": "~1.0.0"
+    "ejs": "^2.3.4"
   },
   "engine": {
     "node": ">0.11"
