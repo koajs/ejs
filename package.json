@@ -28,10 +28,10 @@
   "devDependencies": {
     "autod": "2",
     "co-wait": "~0.0.0",
-    "koa": "~0.19.1",
-    "mocha": "~2.2.4",
-    "should": "~6.0.1",
-    "supertest": "~0.15.0"
+    "koa": "~1.1.2",
+    "mocha": "~2.3.4",
+    "should": "~8.0.2",
+    "supertest": "~1.1.0"
   },
   "dependencies": {
     "co-fs": "~1.2.0",
@@ -40,8 +40,5 @@
   },
   "engine": {
     "node": ">0.11"
-  },
-  "files": [
-    "index.js"
-  ]
+  }
 }
