@@ -33,6 +33,23 @@ app.listen(7001);
 
 Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/master/example).
 
+### Wokraround for Koa 2
+
+```sh
+npm install co --save
+```
+```javascript
+import co from 'co';
+import render from 'koa-ejs';
+
+render(app, options);
+app.context.render = co.wrap(app.context.render);
+
+app.use(async (ctx, next) => {
+    await ctx.render(view, locals);
+});
+```
+
 ### settings
 
 * root: view root directory.
