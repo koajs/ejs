@@ -25,7 +25,8 @@ var defaultSettings = {
   viewExt: 'html',
   locals: {},
   debug: false,
-  writeResp: true
+  writeResp: true,
+  context: {}
 };
 
 /**
@@ -91,7 +92,7 @@ exports = module.exports = function (app, settings) {
 
 
   app.context.render = function *(view, _context) {
-    var context = {};
+    var context = settings.context || {};
     merge(context, this.state);
     merge(context, _context);
 
