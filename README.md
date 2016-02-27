@@ -21,7 +21,8 @@ render(app, {
   layout: 'template',
   viewExt: 'html',
   cache: false,
-  debug: true
+  debug: true,
+  context: {}
 });
 
 app.use(function *() {
@@ -58,6 +59,7 @@ app.use(async (ctx, next) => {
 * cache: cache compiled templates (default `true`).
 * debug: debug flag (default `false`).
 * delimiter: character to use with angle brackets for open / close (default `%`).
+* context: global template context
 
 ### Layouts
 
