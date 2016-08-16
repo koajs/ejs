@@ -14,6 +14,7 @@ Koa ejs view render middleware. support all feature of [ejs](https://github.com/
 ```js
 var koa = require('koa');
 var render = require('koa-ejs');
+var path = require('path');
 
 var app = koa();
 render(app, {
