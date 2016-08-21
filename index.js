@@ -94,6 +94,7 @@ exports = module.exports = function (app, settings) {
     var context = {};
     merge(context, this.state);
     merge(context, _context);
+    merge(context, settings.locals);
 
     var html = yield *render(view, context);
 
