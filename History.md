@@ -1,4 +1,9 @@
 
+4.0.0 / 2017-02-28
+==================
+
+  * rewrite with async function and upgrade dependencies (#34)
+
 3.0.0 / 2015-11-19
 ==================
 
