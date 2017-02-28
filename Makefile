@@ -2,7 +2,7 @@ TESTS = test/*.test.js
 REPORTER = spec
 TIMEOUT = 5000
 MOCHA_OPTS =
-NPM_INSTALL = npm install --registry=http://registry.cnpmjs.org --cache=${HOME}/.npm/.cache/cnpm --disturl=http://dist.u.qiniudn.com
+NPM_INSTALL = npm install --registry=https://registry.npm.taobao.org --cache=${HOME}/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist
 install:
 	@$(NPM_INSTALL)
 
@@ -14,11 +14,5 @@ test: install
 		--require should \
 		$(MOCHA_OPTS) \
 		$(TESTS)
-
-autod: install
-	@./node_modules/.bin/autod -w -e example -f \
-	-D mocha,should \
-	-s ejs@1
-	@$(MAKE) install
 
 .PHONY: test

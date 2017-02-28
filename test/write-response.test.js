@@ -10,14 +10,14 @@
  * Module dependencies.
  */
 
-var render = require('..');
-var request = require('supertest');
-var koa = require('koa');
+const render = require('..');
+const request = require('supertest');
+const Koa = require('koa');
 
 describe('test/write-response.test.js', function () {
   describe('writeResp option', function () {
-    it('should return html with default configuration and writeResp option = false', function(done) {
-      var app = koa();
+    it('should return html with default configuration and writeResp option = false', function (done) {
+      const app = new Koa();
       render(app, {
         root: 'example/view',
         layout: 'template.oc',
@@ -25,49 +25,47 @@ describe('test/write-response.test.js', function () {
         delimiter: '?'
       });
 
-      app.use(function *(next) {
-        var html = yield this.render('user.oc', {
-          user: {name: 'Zed Gu'},
-          writeResp:false
+      app.use(async function (ctx, next) {
+        const html = await ctx.render('user.oc', {
+          user: { name: 'Zed Gu' },
+          writeResp: false
         });
 
-        this.type = 'html';
-        this.body = html;
+        ctx.type = 'html';
+        ctx.body = html;
       });
 
       request(app.callback())
-      .get('/')
-      .expect('content-type', 'text/html; charset=utf-8')
-      .expect(/Zed Gu/)
-      .expect(200, done)
-
+        .get('/')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/Zed Gu/, done);
     });
 
-    it('should return html with configuration writeResp = false', function(done) {
-      var app = koa();
+    it('should return html with configuration writeResp = false', function (done) {
+      const app = new Koa();
       render(app, {
         root: 'example/view',
         layout: 'template.oc',
         viewExt: 'html',
         delimiter: '?',
-        writeResp:false
+        writeResp: false
       });
 
-      app.use(function *(next) {
-        var html = yield this.render('user.oc', {
-          user: {name: 'Zed Gu'}
-        });
-        
-        this.type = 'html';
-        this.body = html;
+      app.use(async function (ctx) {
+      const html = await ctx.render('user.oc', {
+        user: { name: 'Zed Gu' }
+      });
+
+      ctx.type = 'html';
+      ctx.body = html;
       });
 
       request(app.callback())
-      .get('/')
-      .expect('content-type', 'text/html; charset=utf-8')
-      .expect(/Zed Gu/)
-      .expect(200, done)
-
+        .get('/')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/Zed Gu/, done);
     });
   });
 });

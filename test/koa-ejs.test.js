@@ -10,17 +10,18 @@
  * Module dependencies.
  */
 
-var render = require('..');
-var request = require('supertest');
-var koa = require('koa');
+const render = require('..');
+const request = require('supertest');
+const Koa = require('koa');
 
 describe('test/koa-ejs.test.js', function () {
   describe('init()', function () {
-    var app = koa();
+    const app = new Koa();
     it('should throw error if no root', function () {
       (function () {
         render(app);
       }).should.throw('settings.root required');
+
       (function () {
         render(app, {});
       }).should.throw('settings.root required');
@@ -38,17 +39,17 @@ describe('test/koa-ejs.test.js', function () {
 
   describe('server', function () {
     it('should render page ok', function (done) {
-      var app = require('../example/app');
+      const app = require('../example/app');
       request(app)
-      .get('/')
-      .expect('content-type', 'text/html; charset=utf-8')
-      .expect(/<title>koa ejs<\/title>/)
-      .expect(/Dead Horse/)
-      .expect(/Jack/)
-      .expect(200, done);
+        .get('/')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/<title>koa ejs<\/title>/)
+        .expect(/Dead Horse/)
+        .expect(/Jack/, done);
     });
-    it('should render page ok with custom open/close', function(done) {
-      var app = koa();
+    it('should render page ok with custom open/close', function (done) {
+      const app = new Koa();
       render(app, {
         root: 'example/view',
         layout: 'template.oc',
@@ -56,16 +57,16 @@ describe('test/koa-ejs.test.js', function () {
         delimiter: '?'
       });
 
-      app.use(function *(next) {
-        yield this.render('user.oc', {
-          user: {name: 'Zed Gu'}
+      app.use(async function (ctx) {
+        await ctx.render('user.oc', {
+          user: { name: 'Zed Gu' }
         });
       });
       request(app.callback())
-      .get('/')
-      .expect('content-type', 'text/html; charset=utf-8')
-      .expect(/Zed Gu/)
-      .expect(200, done)
+        .get('/')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/Zed Gu/, done);
     });
   });
 });
