@@ -12,10 +12,10 @@ Koa ejs view render middleware. support all feature of [ejs](https://github.com/
 ### Example
 
 ```js
-var koa = require('koa');
-var render = require('koa-ejs');
+const Koa = require('koa');
+const render = require('koa-ejs');
 
-var app = koa();
+const app = new Koa();
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',
@@ -24,31 +24,14 @@ render(app, {
   debug: true
 });
 
-app.use(function *() {
-  yield this.render('user');
+app.use(async function (ctx) {
+  await ctx.render('user');
 });
 
 app.listen(7001);
 ```
 
-Or you can checkout the [example](https://github.com/dead-horse/koa-ejs/tree/master/example).
-
-### Wokraround for Koa 2
-
-```sh
-npm install co --save
-```
-```javascript
-import co from 'co';
-import render from 'koa-ejs';
-
-render(app, options);
-app.context.render = co.wrap(app.context.render);
-
-app.use(async (ctx, next) => {
-    await ctx.render(view, locals);
-});
-```
+Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/example).
 
 ### settings
 
@@ -61,7 +44,7 @@ app.use(async (ctx, next) => {
 
 ### Layouts
 
-`koa-ejs` supports layouts. The default layout file is `layout`. If you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `yield this.render`.
+`koa-ejs` supports layouts. The default layout file is `layout`. If you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `await ctx.render`.
 Also you can set `layout = false` to disable the layout.
 
 ```
@@ -93,7 +76,7 @@ Support [`ctx.state` in koa](https://github.com/koajs/koa/blob/master/docs/api/c
 ## Licences
 (The MIT License)
 
-Copyright (c) 2014 dead-horse and other contributors
+Copyright (c) 2017 dead-horse and other contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
