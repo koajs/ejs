@@ -1,6 +1,6 @@
 /*!
  * koa-ejs - example/app.js
- * Copyright(c) 2014 dead_horse <dead_horse@qq.com>
+ * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
  * MIT Licensed
  */
 
@@ -10,11 +10,11 @@
  * Module dependencies.
  */
 
-var koa = require('koa');
-var render = require('..');
-var path = require('path');
+const Koa = require('koa');
+const render = require('..');
+const path = require('path');
 
-var app = koa();
+const app = new Koa();
 
 render(app, {
   root: path.join(__dirname, 'view'),
@@ -24,18 +24,18 @@ render(app, {
   debug: true
 });
 
-app.use(function* (next) {
-  this.state = this.state || {};
-  this.state.now = new Date();
-  this.state.ip = this.ip;
-  this.state.version = '2.0.0';
-  yield next;
+app.use(function (ctx, next) {
+  ctx.state = ctx.state || {};
+  ctx.state.now = new Date();
+  ctx.state.ip = ctx.ip;
+  ctx.state.version = '2.0.0';
+  return next();
 });
 
-app.use(function *() {
-  var users = [{name: 'Dead Horse'}, {name: 'Jack'}, {name: 'Tom'}];
-  yield this.render('content', {
-    users: users
+app.use(async function (ctx) {
+  const users = [{ name: 'Dead Horse' }, { name: 'Jack' }, { name: 'Tom' }];
+  await ctx.render('content', {
+    users
   });
 });
 
@@ -43,9 +43,9 @@ if (process.env.NODE_ENV === 'test') {
   module.exports = app.callback();
 } else {
   app.listen(7001);
-  console.log('open http://localhost:7001')
+  console.log('open http://localhost:7001');
 }
 
 app.on('error', function (err) {
-  console.log(err.stack)
-})
+  console.log(err.stack);
+});

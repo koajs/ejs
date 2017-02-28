@@ -1,6 +1,6 @@
 /*!
  * koa-ejs - index.js
- * Copyright(c) 2014 dead_horse <dead_horse@qq.com>
+ * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
  * MIT Licensed
  */
 
@@ -10,16 +10,17 @@
  * Module dependencies.
  */
 
-var copy = require('copy-to');
-var path = require('path');
-var fs = require('co-fs');
-var ejs = require('ejs');
+const debug = require('debug')('koa-ejs');
+const fs = require('mz').fs;
+const path = require('path');
+const ejs = require('ejs');
+
 
 /**
  * default render options
  * @type {Object}
  */
-var defaultSettings = {
+const defaultSettings = {
   cache: true,
   layout: 'layout',
   viewExt: 'html',
@@ -33,7 +34,7 @@ var defaultSettings = {
  *
  * usage:
  * ```
- * yield *this.render('user', {name: 'dead_horse'});
+ * await ctx.render('user', {name: 'dead_horse'});
  * ```
  * @param {Application} app koa application instance
  * @param {Object} settings user settings
@@ -50,12 +51,12 @@ exports = module.exports = function (app, settings) {
   settings.root = path.resolve(process.cwd(), settings.root);
 
   /**
-  * cache the generate package
-  * @type {Object}
-  */
-  var cache = Object.create(null);
+   * cache the generate package
+   * @type {Object}
+   */
+  const cache = Object.create(null);
 
-  copy(defaultSettings).to(settings);
+  settings = Object.assign({}, defaultSettings, settings);
 
   settings.viewExt = settings.viewExt
     ? '.' + settings.viewExt.replace(/^\./, '')
@@ -67,16 +68,17 @@ exports = module.exports = function (app, settings) {
    * @param {Object} options
    * @return {String} html
    */
-  function *render(view, options) {
+  async function render(view, options) {
     view += settings.viewExt;
-    var viewPath = path.join(settings.root, view);
+    const viewPath = path.join(settings.root, view);
+    debug(`render: ${viewPath}`);
     // get from cache
     if (settings.cache && cache[viewPath]) {
       return cache[viewPath].call(options.scope, options);
     }
 
-    var tpl = yield fs.readFile(viewPath, 'utf8');
-    var fn = ejs.compile(tpl, {
+    const tpl = await fs.readFile(viewPath, 'utf8');
+    const fn = ejs.compile(tpl, {
       filename: viewPath,
       _with: settings._with,
       compileDebug: settings.debug,
@@ -90,27 +92,27 @@ exports = module.exports = function (app, settings) {
   }
 
 
-  app.context.render = function *(view, _context) {
-    var context = {};
-    merge(context, this.state);
-    merge(context, _context);
+  app.context.render = async function (view, _context) {
+    const ctx = this;
 
-    var html = yield *render(view, context);
+    const context = Object.assign({}, ctx.state, _context);
 
-    var layout = context.layout === false ? false : (context.layout || settings.layout);
+    let html = await render(view, context);
+
+    const layout = context.layout === false ? false : (context.layout || settings.layout);
     if (layout) {
       // if using layout
       context.body = html;
-      html = yield *render(layout, context);
+      html = await render(layout, context);
     }
 
-    var writeResp = context.writeResp === false ? false : (context.writeResp || settings.writeResp);
+    const writeResp = context.writeResp === false ? false : (context.writeResp || settings.writeResp);
     if (writeResp) {
-      //normal operation
-      this.type = 'html';
-      this.body = html;
-    }else{
-      //only return the html
+      // normal operation
+      ctx.type = 'html';
+      ctx.body = html;
+    } else {
+      // only return the html
       return html;
     }
   };
@@ -121,17 +123,3 @@ exports = module.exports = function (app, settings) {
  */
 
 exports.ejs = ejs;
-
-/**
- * merge source to target
- *
- * @param {Object} target
- * @param {Object} source
- * @return {Object}
- * @api private
- */
-function merge(target, source) {
-  for (var key in source) {
-    target[key] = source[key];
-  }
-}
