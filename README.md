@@ -52,8 +52,8 @@ Also you can set `layout = false` to disable the layout.
   <head>
     <title>koa ejs</title>
   </head>
-  <h3>koa ejs</h3>
   <body>
+    <h3>koa ejs</h3>
     <%- body %>
   </body>
 </html>
