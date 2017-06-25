@@ -25,6 +25,7 @@ const defaultSettings = {
   layout: 'layout',
   viewExt: 'html',
   locals: {},
+  compileDebug: false,
   debug: false,
   writeResp: true
 };
@@ -81,7 +82,8 @@ exports = module.exports = function (app, settings) {
     const fn = ejs.compile(tpl, {
       filename: viewPath,
       _with: settings._with,
-      compileDebug: settings.debug,
+      compileDebug: settings.debug && settings.compileDebug,
+      debug: settings.debug,
       delimiter: settings.delimiter
     });
     if (settings.cache) {
