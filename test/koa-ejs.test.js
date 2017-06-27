@@ -68,5 +68,33 @@ describe('test/koa-ejs.test.js', function () {
         .expect('content-type', 'text/html; charset=utf-8')
         .expect(/Zed Gu/, done);
     });
+    it('should render page ok with `viewExt` option supporting `include` directive', function (done) {
+      const app = new Koa();
+      render(app, {
+        root: 'example/view',
+        layout: 'template',
+        viewExt: 'html',
+        cache: false
+      });
+
+      app.use(function (ctx, next) {
+        ctx.state = ctx.state || {};
+        ctx.state.ip = ctx.ip;
+        return next();
+      });
+
+      app.use(async function (ctx) {
+        const users = [{ name: 'Dead Horse' }, { name: 'Runrioter Wung' }];
+        await ctx.render('content.noext', {
+          users
+        });
+      });
+      request(app.callback())
+        .get('/')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/Dead Horse/)
+        .expect(/Runrioter Wung/, done);
+    });
   });
 });

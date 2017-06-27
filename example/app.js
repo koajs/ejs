@@ -21,7 +21,7 @@ render(app, {
   layout: 'template',
   viewExt: 'html',
   cache: false,
-  debug: true
+  debug: false,
 });
 
 app.use(function (ctx, next) {
