@@ -79,6 +79,16 @@ exports = module.exports = function (app, settings) {
     }
 
     const tpl = await fs.readFile(viewPath, 'utf8');
+    
+    // override `ejs` node_module `resolveInclude` function
+    const parentResolveInclude = ejs.resolveInclude;
+    ejs.resolveInclude = function(name, filename, isDir) {
+      if (!path.extname(name)) {
+        name += settings.viewExt;
+      }
+      return parentResolveInclude(name, filename, isDir);
+    }
+    
     const fn = ejs.compile(tpl, {
       filename: viewPath,
       _with: settings._with,
