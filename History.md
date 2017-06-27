@@ -1,4 +1,10 @@
 
+4.1.0 / 2017-06-27
+==================
+
+  * feat: Make `viewExt` option support `include` directive (#38)
+  * correct the demo in the Readme
+
 4.0.1 / 2017-06-25
 ==================
 
