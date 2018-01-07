@@ -60,7 +60,7 @@ Also you can set `layout = false` to disable the layout.
 </html>
 ```
 
-### Inlcude
+### Include
 
 Supports ejs includes.
 
