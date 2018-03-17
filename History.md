@@ -1,4 +1,14 @@
 
+4.1.1 / 2018-03-17
+==================
+
+**fixes**
+  * [[`f12513f`](http://github.com/koajs/ejs/commit/f12513fed78c6ee2cc02624dd861039c35a82737)] - fix: Fix Wrong function reference may cause 'Maxiumn call stack size exceeded' (Runrioter <<runrioter@qq.com>>)
+
+**others**
+  * [[`785f28a`](http://github.com/koajs/ejs/commit/785f28ab6c6fe6989bfd6741ef4803c0754d70e4)] - chore: add missing package.files (dead-horse <<dead_horse@qq.com>>)
+  * [[`6babd1f`](http://github.com/koajs/ejs/commit/6babd1f58751ccf9e9c0fc1c99d4ebb3848719af)] - fix typo (#43) (Dan Bergren <<bergren2@users.noreply.github.com>>)
+
 4.1.0 / 2017-06-27
 ==================
 
