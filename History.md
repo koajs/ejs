@@ -1,4 +1,10 @@
 
+4.1.2 / 2018-07-19
+==================
+
+**fixes**
+  * [[`245e1ee`](http://github.com/koajs/ejs/commit/245e1eeca515caebd2e5ffd6e1c3450ec159db4b)] - fix: cache includeFile (#45) (hyj1991 <<66cfat66@gmail.com>>)
+
 4.1.1 / 2018-03-17
 ==================
 
