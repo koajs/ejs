@@ -97,7 +97,8 @@ exports = module.exports = function (app, settings) {
       _with: settings._with,
       compileDebug: settings.debug && settings.compileDebug,
       debug: settings.debug,
-      delimiter: settings.delimiter
+      delimiter: settings.delimiter,
+      cache: settings.cache
     });
     if (settings.cache) {
       cache[viewPath] = fn;
