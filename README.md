@@ -42,6 +42,7 @@ Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/examp
 * cache: cache compiled templates (default `true`).
 * debug: debug flag (default `false`).
 * delimiter: character to use with angle brackets for open / close (default `%`).
+* async: When true, EJS will use an async function for rendering. Depends on async/await support in the JS runtime.
 
 ### Layouts
 
