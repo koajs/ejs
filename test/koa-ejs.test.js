@@ -48,6 +48,28 @@ describe('test/koa-ejs.test.js', function () {
         .expect(/Dead Horse/)
         .expect(/Jack/, done);
     });
+    it('should render page ok with async functions', function (done) {
+      const app = new Koa();
+      render(app, {
+        root: 'example/view',
+        viewExt: 'html',
+        layout: false,
+        async: true
+      });
+
+      app.use(async function (ctx) {
+        await ctx.render('async', {
+          async sayHello (name) {
+            return `Hello, ${name}`
+          }
+        });
+      });
+      request(app.callback())
+        .get('/')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/Hello, Jack/, done);
+    });
     it('should render page ok with custom open/close', function (done) {
       const app = new Koa();
       render(app, {
