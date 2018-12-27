@@ -31,7 +31,8 @@ const defaultSettings = {
   locals: {},
   compileDebug: false,
   debug: false,
-  writeResp: true
+  writeResp: true,
+  async: false
 };
 
 /**
@@ -98,7 +99,8 @@ exports = module.exports = function (app, settings) {
       compileDebug: settings.debug && settings.compileDebug,
       debug: settings.debug,
       delimiter: settings.delimiter,
-      cache: settings.cache
+      cache: settings.cache,
+      async: settings.async
     });
     if (settings.cache) {
       cache[viewPath] = fn;
