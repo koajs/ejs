@@ -1,4 +1,10 @@
 
+4.2.0 / 2018-12-27
+==================
+
+**features**
+  * [[`ca1e00e`](http://github.com/koajs/ejs/commit/ca1e00ee388a759684ce949b9c089fa56f9c9de7)] - feat: upgrade ejs@2.6.1 and add `async` option (#47) (nswbmw <<nswbmw@users.noreply.github.com>>)
+
 4.1.2 / 2018-07-19
 ==================
 
