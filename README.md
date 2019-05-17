@@ -43,6 +43,7 @@ Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/examp
 * debug: debug flag (default `false`).
 * delimiter: character to use with angle brackets for open / close (default `%`).
 * async: When true, EJS will use an async function for rendering. Depends on async/await support in the JS runtime.
+* outputFunctionName: Set to a string (e.g., 'echo' or 'print') for a function to print output inside scriptlet tags.
 
 ### Layouts
 
