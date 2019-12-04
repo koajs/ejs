@@ -68,6 +68,14 @@ exports = module.exports = function (app, settings) {
     ? '.' + settings.viewExt.replace(/^\./, '')
     : '';
 
+  // override `ejs` node_module `resolveInclude` function
+  ejs.resolveInclude = function(name, filename, isDir) {
+    if (!path.extname(name)) {
+      name += settings.viewExt;
+    }
+    return parentResolveInclude(name, filename, isDir);
+  }
+
   /**
    * generate html with view name and options
    * @param {String} view
@@ -84,14 +92,6 @@ exports = module.exports = function (app, settings) {
     }
 
     const tpl = await fs.readFile(viewPath, 'utf8');
-
-    // override `ejs` node_module `resolveInclude` function
-    ejs.resolveInclude = function(name, filename, isDir) {
-      if (!path.extname(name)) {
-        name += settings.viewExt;
-      }
-      return parentResolveInclude(name, filename, isDir);
-    }
 
     const fn = ejs.compile(tpl, {
       filename: viewPath,
