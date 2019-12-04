@@ -100,7 +100,8 @@ exports = module.exports = function (app, settings) {
       debug: settings.debug,
       delimiter: settings.delimiter,
       cache: settings.cache,
-      async: settings.async
+      async: settings.async,
+      outputFunctionName: settings.outputFunctionName
     });
     if (settings.cache) {
       cache[viewPath] = fn;
