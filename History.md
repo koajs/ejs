@@ -1,4 +1,10 @@
 
+4.2.1 / 2019-12-04
+==================
+
+**others**
+  * [[`129021b`](http://github.com/koajs/ejs/commit/129021bc9bae23910434ebba7a61b82b8245f6ea)] - chore: Move definition of resolveInclude() override out of closure (Anthony Howe <<SirWumpus@users.noreply.github.com>>)
+
 4.2.0 / 2018-12-27
 ==================
 
