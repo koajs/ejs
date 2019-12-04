@@ -1,4 +1,10 @@
 
+4.3.0 / 2019-12-04
+==================
+
+**features**
+  * [[`9bd7c37`](http://github.com/koajs/ejs/commit/9bd7c3790ccbba3d66e3bb9c4ab12ee020cf15fd)] - feat: support for outputFunctionName settings (#52) (Vojtěch Kozák <<kozak.v@gmail.com>>)
+
 4.2.1 / 2019-12-04
 ==================
 
