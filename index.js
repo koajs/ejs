@@ -54,7 +54,7 @@ exports = module.exports = function (app, settings) {
     throw new Error('settings.root required');
   }
 
-  settings.root = path.resolve(process.cwd(), settings.root);
+  settings.root = typeof settings.root === "string" ? path.resolve(process.cwd(), settings.root) : settings.root;
 
   /**
    * cache the generate package
@@ -84,14 +84,14 @@ exports = module.exports = function (app, settings) {
    */
   async function render(view, options) {
     view += settings.viewExt;
-    const viewPath = path.join(settings.root, view);
+    const viewPath = typeof settings.root === "string" ? path.join(settings.root, view) : view;
     debug(`render: ${viewPath}`);
     // get from cache
     if (settings.cache && cache[viewPath]) {
       return cache[viewPath].call(options.scope, options);
     }
 
-    const tpl = await fs.readFile(viewPath, 'utf8');
+    const tpl = typeof settings.root === "string" ? await fs.readFile(viewPath, 'utf8') : await settings.root(viewPath);
 
     const fn = ejs.compile(tpl, {
       filename: viewPath,

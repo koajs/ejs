@@ -36,7 +36,7 @@ Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/examp
 
 ### settings
 
-* root: view root directory.
+* root: view root directory. Also supports callback of type `(templateName: string) => Promise</* template content */ string>`.
 * layout: global layout file, default is `layout`, set `false` to disable layout.
 * viewExt: view file extension (default `html`).
 * cache: cache compiled templates (default `true`).
