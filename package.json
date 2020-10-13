@@ -1,6 +1,6 @@
 {
   "name": "koa-ejs",
-  "version": "4.3.0",
+  "version": "5.0.0",
   "description": "ejs render middleware for koa",
   "main": "index.js",
   "scripts": {
@@ -27,13 +27,13 @@
   "homepage": "https://github.com/koajs/ejs",
   "devDependencies": {
     "koa": "^2.0.1",
-    "mocha": "^3.2.0",
+    "mocha": "^8.1.3",
     "should": "^11.2.0",
     "supertest": "^3.0.0"
   },
   "dependencies": {
     "debug": "^2.6.1",
-    "ejs": "^2.6.1",
+    "ejs": "^3.1.5",
     "mz": "^2.6.0"
   },
   "engine": {

@@ -66,9 +66,11 @@ Also you can set `layout = false` to disable the layout.
 
 Supports ejs includes.
 
+If you are upgrading from ejs 2.x, note the change in ejs 3.x include syntax
+
 ```
 <div>
-  <% include user.html %>
+  <%- include('user.html') %>
 </div>
 ```
 
