@@ -1,24 +1,24 @@
 /*!
- * koa-ejs - index.js
+ * koa-ejs
  * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
  * MIT Licensed
  */
 
-'use strict';
+'use strict'
 
 /**
  * Module dependencies.
  */
 
-const debug = require('debug')('koa-ejs');
-const fs = require('mz').fs;
-const path = require('path');
-const ejs = require('ejs');
+const ejs = require('ejs')
+const path = require('path')
+const fs = require('fs/promises')
+const debug = require('debug')('koa-ejs')
 
 /**
  * Temp assigned for override later
  */
-const parentResolveInclude = ejs.resolveInclude;
+const parentResolveInclude = ejs.resolveInclude
 
 /**
  * default render options
@@ -33,7 +33,9 @@ const defaultSettings = {
   debug: false,
   writeResp: true,
   async: false
-};
+}
+
+exports = module.exports = koaEjs
 
 /**
  * set app.context.render
@@ -45,53 +47,36 @@ const defaultSettings = {
  * @param {Application} app koa application instance
  * @param {Object} settings user settings
  */
-exports = module.exports = function (app, settings) {
-  if (app.context.render) {
-    return;
-  }
-
-  if (!settings || !settings.root) {
-    throw new Error('settings.root required');
-  }
-
-  settings.root = path.resolve(process.cwd(), settings.root);
-
-  /**
-   * cache the generate package
-   * @type {Object}
-   */
-  const cache = Object.create(null);
-
-  settings = Object.assign({}, defaultSettings, settings);
-
-  settings.viewExt = settings.viewExt
-    ? '.' + settings.viewExt.replace(/^\./, '')
-    : '';
+function koaEjs (app, settings) {
+  if (app.context.render) return
+  if (!settings || !settings.root) throw new Error('settings.root required')
+  settings.root = path.resolve(process.cwd(), settings.root)
+  // cache the generate package
+  const cache = {}
+  settings = { ...defaultSettings, ...settings }
+  settings.viewExt = settings.viewExt ? '.' + settings.viewExt.replace(/^\./, '') : ''
 
   // override `ejs` node_module `resolveInclude` function
-  ejs.resolveInclude = function(name, filename, isDir) {
-    if (!path.extname(name)) {
-      name += settings.viewExt;
-    }
-    return parentResolveInclude(name, filename, isDir);
+  ejs.resolveInclude = function (name, filename, isDir) {
+    if (!path.extname(name)) name += settings.viewExt
+    return parentResolveInclude(name, filename, isDir)
   }
 
   /**
    * generate html with view name and options
+   *
    * @param {String} view
    * @param {Object} options
    * @return {String} html
    */
-  async function render(view, options) {
-    view += settings.viewExt;
-    const viewPath = path.join(settings.root, view);
-    debug(`render: ${viewPath}`);
+  async function render (view, options) {
+    view += settings.viewExt
+    const viewPath = path.join(settings.root, view)
+    debug(`render: ${viewPath}`)
     // get from cache
-    if (settings.cache && cache[viewPath]) {
-      return cache[viewPath].call(options.scope, options);
-    }
+    if (settings.cache && cache[viewPath]) { return cache[viewPath](options.scope, options) }
 
-    const tpl = await fs.readFile(viewPath, 'utf8');
+    const tpl = await fs.readFile(viewPath, 'utf8')
 
     const fn = ejs.compile(tpl, {
       filename: viewPath,
@@ -102,43 +87,39 @@ exports = module.exports = function (app, settings) {
       cache: settings.cache,
       async: settings.async,
       outputFunctionName: settings.outputFunctionName
-    });
-    if (settings.cache) {
-      cache[viewPath] = fn;
-    }
+    })
 
-    return fn.call(options.scope, options);
+    if (settings.cache) cache[viewPath] = fn
+
+    return fn.call(options.scope, options)
   }
 
-
   app.context.render = async function (view, _context) {
-    const ctx = this;
+    const ctx = this
+    const context = { ...ctx.state, ..._context }
+    let html = await render(view, context)
 
-    const context = Object.assign({}, ctx.state, _context);
-
-    let html = await render(view, context);
-
-    const layout = context.layout === false ? false : (context.layout || settings.layout);
+    const layout = context.layout === false ? false : (context.layout || settings.layout)
     if (layout) {
       // if using layout
-      context.body = html;
-      html = await render(layout, context);
+      context.body = html
+      html = await render(layout, context)
     }
 
-    const writeResp = context.writeResp === false ? false : (context.writeResp || settings.writeResp);
+    const writeResp = context.writeResp === false ? false : (context.writeResp || settings.writeResp)
     if (writeResp) {
       // normal operation
-      ctx.type = 'html';
-      ctx.body = html;
-    } else {
-      // only return the html
-      return html;
+      ctx.type = 'html'
+      ctx.body = html
     }
-  };
+
+    // only return the html
+    return html
+  }
 };
 
 /**
  * Expose ejs
  */
 
-exports.ejs = ejs;
+exports.ejs = ejs
