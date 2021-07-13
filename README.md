@@ -1,9 +1,8 @@
-koa-ejs
-=========
+# koa-ejs
+
+> Koa ejs view render middleware. support all feature of [ejs](https://github.com/mde/ejs).
 
 [![Build Status](https://secure.travis-ci.org/koajs/ejs.svg)](http://travis-ci.org/koajs/ejs)
-
-Koa ejs view render middleware. support all feature of [ejs](https://github.com/mde/ejs).
 
 [![NPM](https://nodei.co/npm/koa-ejs.png?downloads=true)](https://nodei.co/npm/koa-ejs/)
 
@@ -12,21 +11,21 @@ Koa ejs view render middleware. support all feature of [ejs](https://github.com/
 ### Example
 
 ```js
-const Koa = require('koa');
-const render = require('koa-ejs');
-const path = require('path');
+const Koa = require("koa");
+const render = require("koa-ejs");
+const path = require("path");
 
 const app = new Koa();
 render(app, {
-  root: path.join(__dirname, 'view'),
-  layout: 'template',
-  viewExt: 'html',
+  root: path.join(__dirname, "view"),
+  layout: "template",
+  viewExt: "html",
   cache: false,
-  debug: true
+  debug: true,
 });
 
 app.use(async function (ctx) {
-  await ctx.render('user');
+  await ctx.render("user");
 });
 
 app.listen(7001);
@@ -36,14 +35,14 @@ Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/examp
 
 ### settings
 
-* root: view root directory.
-* layout: global layout file, default is `layout`, set `false` to disable layout.
-* viewExt: view file extension (default `html`).
-* cache: cache compiled templates (default `true`).
-* debug: debug flag (default `false`).
-* delimiter: character to use with angle brackets for open / close (default `%`).
-* async: When true, EJS will use an async function for rendering. Depends on async/await support in the JS runtime.
-* outputFunctionName: Set to a string (e.g., 'echo' or 'print') for a function to print output inside scriptlet tags.
+- root: view root directory.
+- layout: global layout file, default is `layout`, set `false` to disable layout.
+- viewExt: view file extension (default `html`).
+- cache: cache compiled templates (default `true`).
+- debug: debug flag (default `false`).
+- delimiter: character to use with angle brackets for open / close (default `%`).
+- async: When true, EJS will use an async function for rendering. Depends on async/await support in the JS runtime.
+- outputFunctionName: Set to a string (e.g., 'echo' or 'print') for a function to print output inside scriptlet tags.
 
 ### Layouts
 
@@ -68,7 +67,7 @@ Supports ejs includes.
 
 ```
 <div>
-  <% include user.html %>
+  <%- include ('user.html') -%>
 </div>
 ```
 
@@ -77,6 +76,7 @@ Supports ejs includes.
 Support [`ctx.state` in koa](https://github.com/koajs/koa/blob/master/docs/api/context.md#ctxstate).
 
 ## Licences
+
 (The MIT License)
 
 Copyright (c) 2017 dead-horse and other contributors
