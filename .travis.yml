@@ -1,4 +1,7 @@
 language: node_js
 node_js:
-  - '7.6.0'
-script: make test
+  - 12
+  - 14
+  - 16
+script:
+  - npm run ci
