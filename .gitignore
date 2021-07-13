@@ -1,17 +1,20 @@
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
-*.swp
+#       OS        #
+###################
+.DS_Store
+.idea
+Thumbs.db
+tmp
+temp
 
-pids
-logs
-results
 
-package-lock.json
-npm-debug.log
+#     Node.js     #
+###################
 node_modules
+package-lock.json
+yarn.lock
+
+
+#       NYC       #
+###################
+coverage
+.nyc_output
