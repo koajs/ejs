@@ -1,42 +1,67 @@
 {
   "name": "koa-ejs",
   "version": "4.3.0",
-  "description": "ejs render middleware for koa",
+  "description": "ejs render middleware for Koa.js",
   "main": "index.js",
-  "scripts": {
-    "test": "make test"
-  },
   "files": [
     "index.js"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/koajs/ejs.git"
+    "url": "git+https://github.com/koajs/ejs.git"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "cross-env NODE_ENV=test mocha --exit --reporter spec --timeout 5000 --require should test/*.test.js",
+    "precoverage": "rimraf .nyc_output coverage",
+    "coverage": "nyc npm run test",
+    "ci": "npm run coverage"
   },
   "keywords": [
     "koa",
+    "middleware",
     "render",
     "ejs",
-    "view"
+    "view",
+    "template-engine"
   ],
-  "author": "dead_horse <dead_horse@qq.com> (http://deadhorse.me)",
+  "author": {
+    "name": "dead_horse",
+    "email": "dead_horse@qq.com",
+    "url": "http://deadhorse.me"
+  },
+  "contributors": [
+    {
+      "name": "Imed Jaberi",
+      "email": "imed-jaberi@outlook.com",
+      "url": "https://www.3imed-jaberi.com"
+    }
+  ],
   "license": "MIT",
+  "dependencies": {
+    "debug": "^4.3.2",
+    "ejs": "^3.1.6"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^7.30.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "koa": "^2.13.1",
+    "mocha": "^9.0.2",
+    "nyc": "^15.1.0",
+    "should": "^13.2.3",
+    "supertest": "^6.1.3"
+  },
+  "engine": {
+    "node": ">= 12"
+  },
   "bugs": {
     "url": "https://github.com/koajs/ejs/issues"
   },
-  "homepage": "https://github.com/koajs/ejs",
-  "devDependencies": {
-    "koa": "^2.0.1",
-    "mocha": "^3.2.0",
-    "should": "^11.2.0",
-    "supertest": "^3.0.0"
-  },
-  "dependencies": {
-    "debug": "^2.6.1",
-    "ejs": "^2.6.1",
-    "mz": "^2.6.0"
-  },
-  "engine": {
-    "node": ">=7.6.0"
-  }
+  "homepage": "https://github.com/koajs/ejs"
 }
