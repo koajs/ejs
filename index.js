@@ -94,6 +94,7 @@ exports = module.exports = function (app, settings) {
     const tpl = await fs.readFile(viewPath, 'utf8');
 
     const fn = ejs.compile(tpl, {
+      root: settings.root,
       filename: viewPath,
       _with: settings._with,
       compileDebug: settings.debug && settings.compileDebug,
