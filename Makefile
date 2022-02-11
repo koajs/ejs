@@ -2,7 +2,7 @@ TESTS = test/*.test.js
 REPORTER = spec
 TIMEOUT = 5000
 MOCHA_OPTS =
-NPM_INSTALL = npm install --registry=https://registry.npm.taobao.org --cache=${HOME}/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist
+NPM_INSTALL = npm install --registry=https://registry.npmmirror.com --cache=${HOME}/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist
 install:
 	@$(NPM_INSTALL)
 
