@@ -1,0 +1,14 @@
+{
+  "all": false,
+  "exclude": [
+    "**/*.test.js",
+    "example"
+  ],
+  "reporter": [
+    "text-lcov",
+    "text",
+    "lcov"
+  ],
+  "report-dir": "./coverage",
+  "temp-dir": "./.nyc_output"
+}

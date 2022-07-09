@@ -1,9 +1,8 @@
-koa-ejs
-=========
+# koa-ejs
+
+> Koa ejs view render middleware. support all feature of [ejs](https://github.com/mde/ejs).
 
 [![Build Status](https://secure.travis-ci.org/koajs/ejs.svg)](http://travis-ci.org/koajs/ejs)
-
-Koa ejs view render middleware. support all feature of [ejs](https://github.com/mde/ejs).
 
 [![NPM](https://nodei.co/npm/koa-ejs.png?downloads=true)](https://nodei.co/npm/koa-ejs/)
 
@@ -12,21 +11,21 @@ Koa ejs view render middleware. support all feature of [ejs](https://github.com/
 ### Example
 
 ```js
-const Koa = require('koa');
-const render = require('koa-ejs');
-const path = require('path');
+const Koa = require("koa");
+const render = require("koa-ejs");
+const path = require("path");
 
 const app = new Koa();
 render(app, {
-  root: path.join(__dirname, 'view'),
-  layout: 'template',
-  viewExt: 'html',
+  root: path.join(__dirname, "view"),
+  layout: "template",
+  viewExt: "html",
   cache: false,
-  debug: true
+  debug: true,
 });
 
 app.use(async function (ctx) {
-  await ctx.render('user');
+  await ctx.render("user");
 });
 
 app.listen(7001);
@@ -34,16 +33,17 @@ app.listen(7001);
 
 Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/example).
 
-### settings
+### Settings
 
-* root: view root directory.
-* layout: global layout file, default is `layout`, set `false` to disable layout.
-* viewExt: view file extension (default `html`).
-* cache: cache compiled templates (default `true`).
-* debug: debug flag (default `false`).
-* delimiter: character to use with angle brackets for open / close (default `%`).
-* async: When true, EJS will use an async function for rendering. Depends on async/await support in the JS runtime.
-* outputFunctionName: Set to a string (e.g., 'echo' or 'print') for a function to print output inside scriptlet tags.
+- root: view root directory.
+- fs: file system module with same Node.js fs interface (default `Node.js fs module`).
+- layout: global layout file, default is `layout`, set `false` to disable layout.
+- viewExt: view file extension (default `html`).
+- cache: cache compiled templates (default `true`).
+- debug: debug flag (default `false`).
+- delimiter: character to use with angle brackets for open / close (default `%`).
+- async: When true, EJS will use an async function for rendering. Depends on async/await support in the JS runtime.
+- outputFunctionName: Set to a string (e.g., 'echo' or 'print') for a function to print output inside scriptlet tags.
 
 ### Layouts
 
@@ -68,7 +68,7 @@ Supports ejs includes.
 
 ```
 <div>
-  <% include user.html %>
+  <%- include ('user.html') -%>
 </div>
 ```
 
@@ -76,13 +76,11 @@ Supports ejs includes.
 
 Support [`ctx.state` in koa](https://github.com/koajs/koa/blob/master/docs/api/context.md#ctxstate).
 
+
+### TypeScript
+
+If you're project based on TypeScript, we recommend using [`@types/koa-ejs`](https://www.npmjs.com/package/@types/koa-ejs) until we start supporting it in the upcoming releases.
+
 ## Licences
-(The MIT License)
 
-Copyright (c) 2017 dead-horse and other contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[(The MIT License)](LICENSE)
