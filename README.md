@@ -36,6 +36,7 @@ Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/examp
 ### Settings
 
 - root: view root directory.
+- fs: file system module with same Node.js fs interface (default `Node.js fs module`).
 - layout: global layout file, default is `layout`, set `false` to disable layout.
 - viewExt: view file extension (default `html`).
 - cache: cache compiled templates (default `true`).

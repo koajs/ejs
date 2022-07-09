@@ -1,8 +1,8 @@
 /*!
  * koa-ejs
  *
- * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
- * Copyright(c) 2021-2022 imed-jaberi <imed-jaberi@outlook.com>
+ * Copyright(c) 2017      dead_horse    <dead_horse@qq.com>
+ * Copyright(c) 2021-2022 3imed-jaberi  <imed-jaberi@outlook.com>
  * MIT Licensed
  */
 
@@ -14,7 +14,6 @@
 
 const ejs = require('ejs')
 const path = require('path')
-const fs = require('fs/promises')
 const debug = require('debug')('koa-ejs')
 
 /**
@@ -57,6 +56,7 @@ function koaEjs (app, settings) {
   const cache = {}
   settings = { ...defaultSettings, ...settings }
   settings.viewExt = settings.viewExt ? '.' + settings.viewExt.replace(/^\./, '') : ''
+  settings.fs = settings.fs || require('fs/promises')
 
   // override `ejs` node_module `resolveInclude` function
   ejs.resolveInclude = function (name, filename, isDir) {
@@ -78,7 +78,7 @@ function koaEjs (app, settings) {
     // get from cache
     if (settings.cache && cache[viewPath]) return cache[viewPath](options.scope, options)
 
-    const tpl = await fs.readFile(viewPath, 'utf8')
+    const tpl = await settings.fs.readFile(viewPath, 'utf8')
 
     const fn = ejs.compile(tpl, {
       filename: viewPath,

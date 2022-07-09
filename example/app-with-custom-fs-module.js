@@ -1,7 +1,7 @@
 /*!
- * koa-ejs - example/app.js
+ * koa-ejs - example/app-with-custom-fs-module
  *
- * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
+ * Copyright(c) 2022 3imed-jaberi <imed-jaberi@outlook.com>
  * MIT Licensed
  */
 
@@ -19,6 +19,7 @@ const app = new Koa()
 
 render(app, {
   root: path.join(__dirname, 'view'),
+  fs: require('mz/fs'),
   layout: 'template',
   viewExt: 'html',
   cache: false,

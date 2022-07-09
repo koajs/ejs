@@ -39,85 +39,173 @@ describe('test/koa-ejs.test.js', function () {
   })
 
   describe('server', function () {
-    it('should render page ok', function (done) {
-      const app = require('../example/app')
-      request(app)
-        .get('/')
-        .expect(200)
-        .expect('content-type', 'text/html; charset=utf-8')
-        .expect(/<title>koa ejs<\/title>/)
-        .expect(/Dead Horse/)
-        .expect(/Imed Jaberi/, done)
-    })
-    it('should render page ok with async functions', function (done) {
-      const app = new Koa()
-      render(app, {
-        root: 'example/view',
-        viewExt: 'html',
-        layout: false,
-        async: true
+    describe('with default node.js fs module', () => {
+      it('should render page ok', function (done) {
+        const app = require('../example/app')
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/<title>koa ejs<\/title>/)
+          .expect(/Dead Horse/)
+          .expect(/Imed Jaberi/, done)
       })
-
-      app.use(async function (ctx) {
-        await ctx.render('async', {
-          async sayHello (name) {
-            return `Hello, ${name}`
-          }
+      it('should render page ok with async functions', function (done) {
+        const app = new Koa()
+        render(app, {
+          root: 'example/view',
+          viewExt: 'html',
+          layout: false,
+          async: true
         })
-      })
-      request(app.callback())
-        .get('/')
-        .expect(200)
-        .expect('content-type', 'text/html; charset=utf-8')
-        .expect(/Hello, Jack/, done)
-    })
-    it('should render page ok with custom open/close', function (done) {
-      const app = new Koa()
-      render(app, {
-        root: 'example/view',
-        layout: 'template.oc',
-        viewExt: 'html',
-        delimiter: '?'
-      })
 
-      app.use(async function (ctx) {
-        await ctx.render('user.oc', {
-          user: { name: 'Zed Gu' }
+        app.use(async function (ctx) {
+          await ctx.render('async', {
+            async sayHello (name) {
+              return `Hello, ${name}`
+            }
+          })
         })
+        request(app.callback())
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/Hello, Jack/, done)
       })
-      request(app.callback())
-        .get('/')
-        .expect(200)
-        .expect('content-type', 'text/html; charset=utf-8')
-        .expect(/Zed Gu/, done)
-    })
-    it('should render page ok with `viewExt` option supporting `include` directive', function (done) {
-      const app = new Koa()
-      render(app, {
-        root: 'example/view',
-        layout: 'template',
-        viewExt: 'html',
-        cache: false
-      })
-
-      app.use(function (ctx, next) {
-        ctx.state = ctx.state || {}
-        ctx.state.ip = ctx.ip
-        return next()
-      })
-
-      app.use(async function (ctx) {
-        const users = [{ name: 'Dead Horse' }, { name: 'Runrioter Wung' }]
-        await ctx.render('content.noext', {
-          users
+      it('should render page ok with custom open/close', function (done) {
+        const app = new Koa()
+        render(app, {
+          root: 'example/view',
+          layout: 'template.oc',
+          viewExt: 'html',
+          delimiter: '?'
         })
+
+        app.use(async function (ctx) {
+          await ctx.render('user.oc', {
+            user: { name: 'Zed Gu' }
+          })
+        })
+        request(app.callback())
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/Zed Gu/, done)
       })
-      request(app.callback())
-        .get('/')
-        .expect(200)
-        .expect('content-type', 'text/html; charset=utf-8')
-        .expect(/Dead Horse/)
-        .expect(/Runrioter Wung/, done)
+      it('should render page ok with `viewExt` option supporting `include` directive', function (done) {
+        const app = new Koa()
+        render(app, {
+          root: 'example/view',
+          layout: 'template',
+          viewExt: 'html',
+          cache: false
+        })
+
+        app.use(function (ctx, next) {
+          ctx.state = ctx.state || {}
+          ctx.state.ip = ctx.ip
+          return next()
+        })
+
+        app.use(async function (ctx) {
+          const users = [{ name: 'Dead Horse' }, { name: 'Runrioter Wung' }]
+          await ctx.render('content.noext', {
+            users
+          })
+        })
+        request(app.callback())
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/Dead Horse/)
+          .expect(/Runrioter Wung/, done)
+      })
+    })
+
+    describe('with custom node.js fs module like', () => {
+      it('should render page ok', function (done) {
+        const app = require('../example/app-with-custom-fs-module')
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/<title>koa ejs<\/title>/)
+          .expect(/Dead Horse/)
+          .expect(/Imed Jaberi/, done)
+      })
+      it('should render page ok with async functions', function (done) {
+        const app = new Koa()
+        render(app, {
+          root: 'example/view',
+          fs: require('mz/fs'),
+          viewExt: 'html',
+          layout: false,
+          async: true
+        })
+
+        app.use(async function (ctx) {
+          await ctx.render('async', {
+            async sayHello (name) {
+              return `Hello, ${name}`
+            }
+          })
+        })
+        request(app.callback())
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/Hello, Jack/, done)
+      })
+      it('should render page ok with custom open/close', function (done) {
+        const app = new Koa()
+        render(app, {
+          root: 'example/view',
+          fs: require('mz/fs'),
+          layout: 'template.oc',
+          viewExt: 'html',
+          delimiter: '?'
+        })
+
+        app.use(async function (ctx) {
+          await ctx.render('user.oc', {
+            user: { name: 'Zed Gu' }
+          })
+        })
+        request(app.callback())
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/Zed Gu/, done)
+      })
+      it('should render page ok with `viewExt` option supporting `include` directive', function (done) {
+        const app = new Koa()
+        render(app, {
+          root: 'example/view',
+          fs: require('mz/fs'),
+          layout: 'template',
+          viewExt: 'html',
+          cache: false
+        })
+
+        app.use(function (ctx, next) {
+          ctx.state = ctx.state || {}
+          ctx.state.ip = ctx.ip
+          return next()
+        })
+
+        app.use(async function (ctx) {
+          const users = [{ name: 'Dead Horse' }, { name: 'Runrioter Wung' }]
+          await ctx.render('content.noext', {
+            users
+          })
+        })
+        request(app.callback())
+          .get('/')
+          .expect(200)
+          .expect('content-type', 'text/html; charset=utf-8')
+          .expect(/Dead Horse/)
+          .expect(/Runrioter Wung/, done)
+      })
     })
   })
 })
