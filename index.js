@@ -1,6 +1,8 @@
 /*!
  * koa-ejs
+ *
  * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
+ * Copyright(c) 2021-2022 imed-jaberi <imed-jaberi@outlook.com>
  * MIT Licensed
  */
 
@@ -74,7 +76,7 @@ function koaEjs (app, settings) {
     const viewPath = path.join(settings.root, view)
     debug(`render: ${viewPath}`)
     // get from cache
-    if (settings.cache && cache[viewPath]) { return cache[viewPath](options.scope, options) }
+    if (settings.cache && cache[viewPath]) return cache[viewPath](options.scope, options)
 
     const tpl = await fs.readFile(viewPath, 'utf8')
 
