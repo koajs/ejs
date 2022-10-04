@@ -1,5 +1,5 @@
 /*!
- * koa-ejs
+ * @koa/ejs
  *
  * Copyright(c) 2017      dead_horse    <dead_horse@qq.com>
  * Copyright(c) 2021-2022 3imed-jaberi  <imed-jaberi@outlook.com>
@@ -14,7 +14,7 @@
 
 const ejs = require('ejs')
 const path = require('path')
-const debug = require('debug')('koa-ejs')
+const debug = require('debug')('@koa/ejs')
 
 /**
  * Temp assigned for override later

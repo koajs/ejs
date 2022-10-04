@@ -1,5 +1,5 @@
 /*!
- * koa-ejs - test/koa-ejs.test.js
+ * @koa/ejs - test/koa/ejs.test.js
  * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
  * MIT Licensed
  */

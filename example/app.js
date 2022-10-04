@@ -1,5 +1,5 @@
 /*!
- * koa-ejs - example/app.js
+ * @koa/ejs - example/app.js
  *
  * Copyright(c) 2017 dead_horse <dead_horse@qq.com>
  * MIT Licensed

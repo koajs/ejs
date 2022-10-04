@@ -1,10 +1,10 @@
-# koa-ejs
+# @koa/ejs
 
 > Koa ejs view render middleware. support all feature of [ejs](https://github.com/mde/ejs).
 
 [![Build Status](https://secure.travis-ci.org/koajs/ejs.svg)](http://travis-ci.org/koajs/ejs)
 
-[![NPM](https://nodei.co/npm/koa-ejs.png?downloads=true)](https://nodei.co/npm/koa-ejs/)
+[![NPM](https://nodei.co/npm/@koa/ejs.png?downloads=true)](https://nodei.co/npm/@koa/ejs/)
 
 ## Usage
 
@@ -12,7 +12,7 @@
 
 ```js
 const Koa = require("koa");
-const render = require("koa-ejs");
+const render = require("@koa/ejs");
 const path = require("path");
 
 const app = new Koa();
@@ -47,7 +47,7 @@ Or you can checkout the [example](https://github.com/koajs/ejs/tree/master/examp
 
 ### Layouts
 
-`koa-ejs` supports layouts. The default layout file is `layout`. If you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `await ctx.render`.
+`@koa/ejs` supports layouts. The default layout file is `layout`. If you want to change default layout file, use `settings.layout`. Also you can specify layout by `options.layout` in `await ctx.render`.
 Also you can set `layout = false` to disable the layout.
 
 ```
