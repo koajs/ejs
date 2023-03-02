@@ -76,7 +76,7 @@ function koaEjs (app, settings) {
     const viewPath = path.join(settings.root, view)
     debug(`render: ${viewPath}`)
     // get from cache
-    if (settings.cache && cache[viewPath]) return cache[viewPath](options.scope, options)
+    if (settings.cache && cache[viewPath]) return cache[viewPath].call(options.scope, options)
 
     const tpl = await settings.fs.readFile(viewPath, 'utf8')
 
